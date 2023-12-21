@@ -208,8 +208,8 @@ def main():
     tasks, teams = inp()
     sol = Solve(tasks, teams)
     sol.solve()
-    sol.export_sol("3_out.txt")
-    # sol.write()
+    # sol.export_sol("3_out.txt")
+    sol.write()
 
 if __name__ == "__main__":
     main()
