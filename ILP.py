@@ -24,7 +24,7 @@ def main(n):
             solver.Add(time_vars[task1_var]-time_vars[task2_var]-C2*task_orders[task1_var][task2_var]-0.01<=0)
             solver.Add(-(time_vars[task1_var]-time_vars[task2_var]+C2*(1-task_orders[task1_var][task2_var]))+0.01<=0)
             if constrain.task_constrain[task2_var][task1_var]==1:
-                solver.Add(-time_vars[task2_var] + time_vars[task1_var] + task.duration[task1_var] <= 0)
+                solver.Add(-time_vars[task2_var]+time_vars[task1_var]+task.duration[task1_var]<=0)
     max_time = solver.IntVar(0, inf, "Final time for solving all task")
     for task_var,time in enumerate(time_vars):
         solver.Add(time+task.duration[task_var]-max_time<=0)
@@ -32,7 +32,6 @@ def main(n):
     status = solver.Solve()
     if status == pywraplp.Solver.OPTIMAL:
         print("Optimal solution found.")
-        print(f"Max time is {max_time.solution_value()}")
         sums=0
         task_done=0
         for task_var in range(task.num_task):
@@ -42,8 +41,9 @@ def main(n):
                     sums+=check_vars[task_var][team_var].solution_value()*constrain.team_task_constrain[task_var][team_var]
                     task_done+=1
         print(f"Number of task done is {task_done}")
+        print(f"Max time is {max_time.solution_value()}")
         print(f'Total cost is {sums}')
     else:
         print("The problem does not have an optimal solution.")      
-main("4.txt")
+main("3.txt")
     
