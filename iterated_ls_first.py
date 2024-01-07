@@ -3,9 +3,10 @@ import random
 #############################
 
 #Change here
-n="4.txt"
-DEEPNESS1=10
+n="3.txt"
+DEEPNESS1=5
 TIMEOUT=300
+ITER=20
 #############################
 
 class Node:
@@ -153,8 +154,8 @@ def print_res(cur):
         print(x1,x2,x3)
     print(a,b,c)
 
-cur={}
-cur_val=(99999,99999,99999)
+res={}
+res_val=(99999,99999,99999)
 for h in range(DEEPNESS1):
     new_cur={}
     for task in range(1,num_task+1):
@@ -163,30 +164,50 @@ for h in range(DEEPNESS1):
         team=random.choice(team_allowed_for_task[task-1])
         new_cur[task]=team
     new_val=calc_val(new_cur)
-    if new_val<cur_val:
+    if new_val<res_val:
         changed=1
         cur=new_cur.copy()
         cur_val=new_val
 cur_time=time.perf_counter()
-while True:
-    changed=0
-    for task in range(1,num_task+1):
-        if not team_allowed_for_task[task-1]:
-            continue
-        for new_team in team_allowed_for_task[task-1]:
-            if cur[task]!=new_team:
-                new_cur=cur.copy()
-                new_cur[task]=new_team
-                new_val=calc_val(new_cur)
-                if new_val<cur_val:
-                    changed=1
-                    cur[task]=new_team
-                    cur_val=new_val
+for _ in range(ITER):
+    cur=res
+    cur_val=(99999,99999,99999)
+    for h in range(DEEPNESS1):
+        new_cur={}
+        for task in range(1,num_task+1):
+            if not team_allowed_for_task[task-1]:
+                continue
+            team=random.choice(team_allowed_for_task[task-1])
+            new_cur[task]=team
+        new_val=calc_val(new_cur)
+        if new_val<cur_val:
+            changed=1
+            cur=new_cur.copy()
+            cur_val=new_val
+    while True:
+        changed=0
+        for task in range(1,num_task+1):
+            if not team_allowed_for_task[task-1]:
+                continue
+            for new_team in team_allowed_for_task[task-1]:
+                if cur[task]!=new_team:
+                    new_cur=cur.copy()
+                    new_cur[task]=new_team
+                    new_val=calc_val(new_cur)
+                    if new_val<cur_val:
+                        changed=1
+                        cur[task]=new_team
+                        cur_val=new_val
+                if time.perf_counter()-cur_time>TIMEOUT:
+                    break
             if time.perf_counter()-cur_time>TIMEOUT:
                 break
-    if changed==0 or time.perf_counter()-cur_time>TIMEOUT:
-        break
+        if changed==0 or time.perf_counter()-cur_time>TIMEOUT:
+            break
+    if cur_val<res_val:
+        res=cur.copy()
+        res_val=cur_val
 
-print_res(cur)
+print_res(res)
 
     

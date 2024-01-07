@@ -3,7 +3,7 @@ import random
 #############################
 
 #Change here
-n="7.txt"
+n="8.txt"
 DEEPNESS1=10
 TIMEOUT=300
 T=5
@@ -157,7 +157,6 @@ def print_res(cur):
     for x1,x2,x3 in printing_list:
         print(x1,x2,x3)
     print(a,b,c)
-
 cur={}
 cur_val=(99999,99999,99999)
 for h in range(DEEPNESS1):
@@ -172,8 +171,10 @@ for h in range(DEEPNESS1):
         changed=1
         cur=new_cur.copy()
         cur_val=new_val
+print("started")
 cur_time=time.perf_counter()
 while True:
+    changed=0
     task=random.randint(1,num_task)
     if not team_allowed_for_task[task-1]:
         continue
@@ -183,6 +184,7 @@ while True:
             new_cur[task]=new_team
             new_val=calc_val(new_cur)
             if new_val<cur_val:
+                changed=1
                 cur[task]=new_team
                 cur_val=new_val
             else:
@@ -192,9 +194,10 @@ while True:
                 if a<c:
                     cur[task]=new_team
                     cur_val=new_val
-    if time.perf_counter()-cur_time>TIMEOUT:
+    if time.perf_counter()-cur_time>TIMEOUT or changed==0:
         break
 
+print("done")
 print_res(cur)
 
     
