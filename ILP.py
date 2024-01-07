@@ -1,6 +1,6 @@
 from ortools.linear_solver import pywraplp
 from input import take_input
-
+import time
 def main(n):
     C1=100000000 #Largest constant
     C2=10000000 #Second largest constant
@@ -26,8 +26,8 @@ def main(n):
             if constrain.task_constrain[task2_var][task1_var]==1:
                 solver.Add(-times[task2_var]+times[task1_var]+task.duration[task1_var]<=0)
     max_time = solver.IntVar(0, inf, "Final time for solving all task")
-    for task_var,time in enumerate(times):
-        solver.Add(time+task.duration[task_var]-max_time<=0)
+    for task_var,time_var in enumerate(times):
+        solver.Add(time_var+task.duration[task_var]-max_time<=0)
     solver.Maximize(-(-100000000*sum(sum(check_var) for check_var in check) + 1000000*max_time + 10000*sum(check[task_var][team_var]*constrain.team_task_constrain[task_var][team_var] for task_var in range(task.num_task) for team_var in range(team.num_team) if constrain.team_task_constrain[task_var][team_var]>=0)+sum(times)))
     status = solver.Solve()
     if status == pywraplp.Solver.OPTIMAL:
@@ -48,5 +48,7 @@ def main(n):
         #         print(f"Order for task {i+1} and task {j+1}: {orders[i][j].solution_value()}")
     else:
         print("The problem does not have an optimal solution.")
+        
+hehehe=time.perf_counter()
 main("1.txt")
-    
+print('Time: ',time.perf_counter()-hehehe)

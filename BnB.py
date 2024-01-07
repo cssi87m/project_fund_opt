@@ -1,7 +1,9 @@
+import time
+
 #############################
 
 #Change here
-n="1.txt"
+n="1,5.txt"
 
 #############################
 with open(n,"r") as f:
@@ -102,8 +104,9 @@ def solve3(current_task_order, cur_value, task_constrain_num):
             checkout()
             if have_done==1:
                 done_something=1
-
+hehehehehe=time.perf_counter()
 solve3([], 0, task_constrain_num)
+print("Time: ",time.perf_counter()  -hehehehehe)
 answer = ans[:]
 answer.sort()
 print(num_task)
