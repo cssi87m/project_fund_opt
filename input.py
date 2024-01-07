@@ -8,12 +8,12 @@ class Task:
         return f"Task(num_task={self.num_task}, duration={self.duration})"
 
 class Team:
-    def __init__(self, num_team, team_avalable_time):
+    def __init__(self, num_team, team_available_time):
         self.num_team = num_team
-        self.team_avalable_time = deepcopy(team_avalable_time)
+        self.team_available_time = deepcopy(team_available_time)
 
     def __repr__(self):
-        return f"Team(num_team={self.num_team}, team_avalable_time={self.team_avalable_time})"
+        return f"Team(num_team={self.num_team}, team_available_time={self.team_available_time})"
 
 class Constrain:
     def __init__(self, task_constrain, team_task_constrain):
@@ -32,16 +32,16 @@ def take_input(n):
             task_constrain[posttask-1][pretask-1] = 1
         task_duration = list(map(int, f.readline().split()))
         num_team = int(f.readline())
-        team_avalable_time = list(map(int, f.readline().split()))
+        team_available_time = list(map(int, f.readline().split()))
         team_task_constrain = [[-1]*num_team for _ in range(num_task)]
-        if len(team_avalable_time) == num_team:
+        if len(team_available_time) == num_team:
             num_pair = int(f.readline())
         else:
-            num_pair = team_avalable_time.pop()
+            num_pair = team_available_time.pop()
         for _ in range(num_pair):
             task, team, temp_time = tuple(map(int, f.readline().split()))
             team_task_constrain[task-1][team-1] = temp_time
-        task,team,constrain=Task(num_task,task_duration),Team(num_team,team_avalable_time),Constrain(task_constrain,team_task_constrain)
+        task,team,constrain=Task(num_task,task_duration),Team(num_team,team_available_time),Constrain(task_constrain,team_task_constrain)
         return task,team,constrain
     
 
