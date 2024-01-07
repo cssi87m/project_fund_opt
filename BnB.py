@@ -3,7 +3,7 @@ import time
 #############################
 
 #Change here
-n="1,5.txt"
+n="1.txt"
 
 #############################
 with open(n,"r") as f:

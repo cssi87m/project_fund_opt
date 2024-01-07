@@ -50,5 +50,5 @@ def main(n):
         print("The problem does not have an optimal solution.")
         
 hehehe=time.perf_counter()
-main("1.txt")
+main("3.txt")
 print('Time: ',time.perf_counter()-hehehe)
