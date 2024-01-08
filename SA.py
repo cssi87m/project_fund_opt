@@ -378,7 +378,7 @@ def main(input, out, is_print):
     topo_list.sort(key = lambda x: -x.length)  
     # initiate params 
     num_iterations = 50
-    temperature = 10
+    temperature = 100
     cooling_factor = 0.6
     first_state = state(teams, task_team, topo_list, graph)
     solver = SA(temperature, first_state, cooling_factor, num_iterations)
